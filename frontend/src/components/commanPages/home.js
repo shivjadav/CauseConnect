@@ -12,6 +12,7 @@ const Home=()=> {
       <div>
 
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
+          <Link to='/contact-us'>
           <div className="relative rounded-full px-3 py-1 text-sm leading-6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
             Reach out to us.{' '}
             <a href="#" className="font-semibold text-indigo-600">
@@ -19,6 +20,7 @@ const Home=()=> {
               Proceed <span aria-hidden="true">&rarr;</span>
             </a>
           </div>
+          </Link>
         </div>
         <div className="text-center">
         </div>

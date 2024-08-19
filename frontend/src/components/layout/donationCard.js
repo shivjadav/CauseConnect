@@ -16,7 +16,7 @@ export default function DonationCard() {
       </div>
 
       {/* Right side (white background) */}
-      <div className="w-3/4 p-4 bg-gradient-to-br backdrop-blur-md bg-white bg-opacity-15 from-white rounded-r-lg via-white to-indigo-100">
+      <div className="w-3/4 p-4 bg-gradient-to-br backdrop-blur-md bg-white bg-opacity-15 from-white rounded-r-lg via-white to-white">
         <div className="flex justify-between items-center mb-2">
           <span className="text-gray-500 text-xs">NGO Name</span>
           <span className="text-gray-500 text-xs">Date: 01/01/2024</span>

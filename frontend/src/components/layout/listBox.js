@@ -1,25 +1,22 @@
 import React from 'react'
 import { Fragment, useState } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
-// import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { FaCheck } from "react-icons/fa6";
 import { RiExpandUpDownLine } from "react-icons/ri";
 
-
 export default function ListBox(props) {
     const obj = props.options;
-    const [selected, setSelected] = useState(obj[0])
+    const [selected, setSelected] = useState(obj[0]);
+
     return (
-        <div className="fixed top-16 w-72">
+        <div className="top-16 w-full">
             <Listbox value={selected} onChange={setSelected}>
-                <div className="relative mt-1">
-                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-red py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm">
+                <div className="mt-1">
+                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-red py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm flex justify-between items-center">
                         <span className="block truncate">{selected.name}</span>
-                        <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
-                            <RiExpandUpDownLine
-                                className="h-5 w-5 text-gray-400"
-                                aria-hidden="true" />
-                        </span>
+                        <RiExpandUpDownLine
+                            className="h-5 w-5 text-gray-400"
+                            aria-hidden="true" />
                     </Listbox.Button>
                     <Transition
                         as={Fragment}
@@ -27,13 +24,13 @@ export default function ListBox(props) {
                         leaveFrom="opacity-100"
                         leaveTo="opacity-0"
                     >
-                        <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                        <Listbox.Options className="relative mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
                             {obj.map((person, personIdx) => (
                                 <Listbox.Option
                                     key={personIdx}
-                                    className={({ active }) =>
+                                    className={({ active, selected }) =>
                                         `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? 'bg-indigo-100 text-indigo-900' : 'text-gray-900'
-                                        }`
+                                        } flex justify-between items-center`
                                     }
                                     value={person}
                                 >
@@ -45,11 +42,9 @@ export default function ListBox(props) {
                                             >
                                                 {person.name}
                                             </span>
-                                            {selected ? (
-                                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-indigo-600">
-                                                    <FaCheck className="h-5 w-5" aria-hidden="true" />
-                                                </span>
-                                            ) : null}
+                                            {selected && (
+                                                <FaCheck className="h-5 w-5 text-indigo-600" aria-hidden="true" />
+                                            )}
                                         </>
                                     )}
                                 </Listbox.Option>
@@ -59,5 +54,5 @@ export default function ListBox(props) {
                 </div>
             </Listbox>
         </div>
-    )
+    );
 }

@@ -15,7 +15,7 @@ export default function App() {
     <div>
     <Navbar/>
     <MainFrame>
-      <Routes>  
+      <Routes >  
         <Route path='/' element={<Home />} ></Route>
         <Route path='/donate' element={<Donate/>} ></Route>
         <Route path='/contact-us' element={<ContactUs/>}></Route>
