@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import ContactusSVG from '../SVG/contactusSVG';
+import { Link } from 'react-router-dom';
 
 export default function ContactUs() {
   const [formData, setFormData] = useState({
@@ -27,69 +29,46 @@ export default function ContactUs() {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-8 bg-white shadow-lg rounded-lg">
-      <h2 className="text-2xl font-semibold text-indigo-600 mb-4">Contact Us</h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Name
-          </label>
-          <input
-            type="text"
-            name="name"
-            id="name"
-            value={formData.name}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
+    <div className="mx-auto grid md:grid-cols-2 grid-cols-1 max-w-screen px-4 sm:px-8 py-16">
+      <div className="w-full bg-white rounded-lg shadow drop-shadow-2xl md:mt-0 sm:max-w-md xl:p-0 border-b-2 border-l-2 border-l-indigo-600 border-b-indigo-600 mx-auto">
+        <div className="p-6 sm:p-8">
+          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+            Contact us
+          </h1>
+          <form method='post' className="space-y-4 md:space-y-6" action="#">
+            <div>
+              <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">Your email</label>
+              <div className='flex space-x-1'>
+                <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 w-full text-gray-900 sm:text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block p-2.5" placeholder="name@company.com" required />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">Your name</label>
+              <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5" placeholder="name" required />
+            </div>
+            <div className='flex gap-2 flex-row'>
+              <div className='w-1/2'>
+                <label htmlFor="number" className="block mb-2 text-sm font-medium text-gray-900">Contact number</label>
+                <input type="number" pattern='[0-9]{10}' name="phone" id="phone" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5" placeholder="7887878418" required />
+              </div>
+              <div className='w-1/2'>
+                <label htmlFor="age" className="block mb-2 text-sm font-medium text-gray-900">Your age</label>
+                <input type="number" name="age" id="age" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-indigo-600 focus:border-indigo-600 block w-full p-2.5" placeholder="e.g. 45" min={15} max={110} required />
+              </div>
+            </div>
+            <div>
+            <label for="message" class="block mb-2 text-sm font-medium text-gray-900 ">Your message</label>
+            <textarea id="message" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 " placeholder="Leave a comment..." required></textarea>
+            </div>
+
+            <button type="submit" className="w-full text-white bg-indigo-500 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Submit</button>
+          </form>
         </div>
-        <div>
-          <label
-            htmlFor="email"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            name="email"
-            id="email"
-            value={formData.email}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            required
-          />
-        </div>
-        <div>
-          <label
-            htmlFor="message"
-            className="block text-sm font-medium text-gray-700"
-          >
-            Message
-          </label>
-          <textarea
-            name="message"
-            id="message"
-            value={formData.message}
-            onChange={handleChange}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-            rows="4"
-            required
-          />
-        </div>
-        <div>
-          <button
-            type="submit"
-            className="w-full inline-flex justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-          >
-            Send Message
-          </button>
-        </div>
-      </form>
+      </div>
+      <div className='flex items-center justify-center mt-10 md:mt-0'>
+        <ContactusSVG />
+      </div>
     </div>
   );
 }

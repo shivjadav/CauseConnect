@@ -8,7 +8,7 @@ const Home=()=> {
       <div className="mx-auto grid md:grid-cols-2 grid-cols-1 max-w-screen px-16 py-32 sm:py-48 lg:py-32">
 
         <div className='hidden md:block'><Charity/></div>
-        <div>
+        
       <div>
 
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
@@ -41,7 +41,7 @@ const Home=()=> {
             </Link>
               </div>
           </div>
-        </div>
+        
       </div>
       
   )

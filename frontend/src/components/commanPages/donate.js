@@ -13,8 +13,7 @@ const cities=[
 const Donate = () => {
   return (
     <div>
-      {/* <ListBox options={cities}/> */}
-      <NgoCard/>
+     <NgoCard/>
     </div>
   )
 }
