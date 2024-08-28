@@ -23,7 +23,7 @@ dbconnect()
 //         console.log(err);
 //     }
 // })
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use('/register',require('./routers/registerRoute'))
