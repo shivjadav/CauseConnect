@@ -13,7 +13,6 @@ const cities = [
 
 const Donate = () => {
   const ngoIDs=[1,2];
-  console.log(ngoIDs.length)
   return (
     <div className="flex flex-col lg:flex-row items-center lg:items-start lg:space-x-8 space-y-8 lg:space-y-0 mt-8 lg:mt-16 w-full lg:max-w-7xl mx-auto px-4 lg:px-0">
       <div className="flex flex-col space-y-8 lg:w-1/2 lg:max-w-lg">

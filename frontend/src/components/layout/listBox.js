@@ -5,6 +5,7 @@ import { FaCheck } from "react-icons/fa6";
 import { RiExpandUpDownLine } from "react-icons/ri";
 
 export default function ListBox(props) {
+    console.log("list box ")
     const obj = props.options;
     const [selected, setSelected] = useState(obj[0]);
 
@@ -12,7 +13,8 @@ export default function ListBox(props) {
         <div className="top-16 w-full">
             <Listbox value={selected} onChange={setSelected}>
                 <div className="mt-1">
-                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-red py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm flex justify-between items-center">
+                    <Listbox.Button className="relative w-full cursor-default rounded-lg bg-red py-2 pl-3 pr-10 text-left border  focus:outline-1
+                    focus:border-2 focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-indigo-300 sm:text-sm flex justify-between items-center">
                         <span className="block truncate">{selected.name}</span>
                         <RiExpandUpDownLine
                             className="h-5 w-5 text-gray-400"

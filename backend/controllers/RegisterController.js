@@ -10,7 +10,7 @@ const handleRegister=async (req,res)=>{
     const dob=new Date(req.body.dob)
     console.log(dob)
     const password=req.body.password
-
+    
     if(!name || !password || !email  ) return res.status(400).json({'message':"username , password and email is required!"});
 
     const duplicate=await User.findOne({email:email}).exec();
