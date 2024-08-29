@@ -13,8 +13,9 @@ const handleAuth=async (req,res) => {
             }
             const match=await bcrypt.compare(password,user.password)
             if(match){
-                return res.status(200).json({"message":"user succesfully loged in!!"})
+                return res.status(200).json({"message":"user succesfully loged in!!","id":user._id})
             }else{
+                console.log("e")
                 return res.status(400).json({"message":"user's password is not correct!!"})
             }
       }catch(error){

@@ -14,6 +14,7 @@ const navigation = [
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
 
   return (
     <header className="sticky min-w-screen w-full inset-x-0 top-0 z-50">
@@ -54,9 +55,11 @@ const Navbar = () => {
           ))}
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link to="/login" className=" font-semibold leading-6 text-gray-900">
+          {
+          !sessionStorage.getItem("user_id") && <Link to="/login" className=" font-semibold leading-6 text-gray-900">
             Log in <span aria-hidden="true">&rarr;</span>
           </Link>
+          }
         </div>
       </nav>
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">

@@ -24,9 +24,10 @@ const Register = () => {
     });
     const data = await result.json();
     console.log(data);
-    if(data.success===true){
-      navigate("/Login");
+    if(data.success===false){
+      alert("error!")
     } 
+    navigate("/Login");
   }
   return (
     <div className="flex justify-center">
