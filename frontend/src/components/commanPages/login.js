@@ -1,7 +1,12 @@
 import React from 'react'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import LoginSVG from '../SVG/loginSVG'
 const Login = () => {
+  const [form,setForm]=useState({});
+  const handleChange=(e)=>{
+        setForm((prev)=>({...prev,[e.target.id]:e.target.value}))
+  };
   return (
     <div className="flex  justify-center">
       <div className='place-items-center grid lg:w-4/5 w-full md:w-4/5 grid-cols-1 grid-rows-1 md:grid-cols-2 mt-5 mb-5 lg:grid-cols-2'>

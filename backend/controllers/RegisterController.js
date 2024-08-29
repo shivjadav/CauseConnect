@@ -2,8 +2,7 @@ const bcrypt=require('bcrypt')
 const User=require('../models/user')
 
 const handleRegister=async (req,res)=>{
-    console.log(req.body)
-    const name=req.body.username
+    const name=req.body.name
     const email=req.body.email
     const phno=req.body.phoneno
     const address=req.body.address
