@@ -4,7 +4,7 @@ import RegisterSVG from '../SVG/registerSVG'
 import connectionString from '../connectionString'
 import { useNavigate } from 'react-router-dom'
 import axios from "axios"
-
+import Logo from '../SVG/logo'
 import { Link } from 'react-router-dom'
 const Register = () => {
   const [form,setForm]=useState({});
@@ -36,9 +36,15 @@ const Register = () => {
 
           <section className='w-full'>
             <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto  lg:py-0 ">
-              <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-indigo-600 underline">
-                <img src="mealMission.svg" className="h-9 w-auto" alt="Cause Connect" />
-              </Link>
+            <div className='flex flex-row mb-4'>
+                
+                <Link to='/' className='-m-1.5 p-1.5'>
+                <Logo/>            
+                </Link>
+                <Link to='/' className='flex justify-center items-center'>
+            <div className="text-2xl mx-2 text-indigo-600 font-bold">Cause Connect</div>
+                </Link>
+                </div>
               <div className="w-full bg-white rounded-lg shadow drop-shadow-2xl md:mt-0 sm:max-w-md xl:p-0 border-b-4 border-l-4 border-l-indigo-600 border-b-indigo-600">
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
                   <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">

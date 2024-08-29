@@ -1,6 +1,7 @@
 import React from 'react'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import Logo from '../SVG/logo'
 import LoginSVG from '../SVG/loginSVG'
 import { useNavigate } from 'react-router-dom'
 import connectionString from "../connectionString"
@@ -42,9 +43,19 @@ const Login = () => {
         <div className="flex justify-center items-center">
           <section className='w-full'>
             <div className="flex flex-col items-center justify-center px-4 py-8 mx-auto  lg:py-0 ">
-              <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-indigo-600 underline">
+              {/* <Link to="/" className="flex items-center mb-6 text-3xl font-semibold text-indigo-600 underline">
               <img src="mealMission.svg" className="h-9 w-auto" alt="Cause Connect" />
+
+              </Link> */}
+              <div className='flex flex-row mb-4'>
+                
+              <Link to='/' className='-m-1.5 p-1.5'>
+              <Logo/>            
               </Link>
+              <Link to='/' className='flex justify-center items-center'>
+          <div className="text-2xl mx-2 text-indigo-600 font-bold">Cause Connect</div>
+              </Link>
+              </div>
 
               <div className="w-full bg-white rounded-lg shadow drop-shadow-2xl md:mt-0 sm:max-w-md xl:p-0 border-b-4 border-r-4 border-r-indigo-600 border-b-indigo-600 ">
                 <div className="p-6 space-y-4 md:space-y-6 sm:p-8">

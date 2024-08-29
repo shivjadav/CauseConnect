@@ -3,7 +3,7 @@ import { Dialog, DialogPanel } from '@headlessui/react';
 import { IoMenu } from "react-icons/io5";
 import { FaX } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
-
+import Logo from './../SVG/logo'
 const navigation = [
   {name: 'Home', href:'/'},
   { name: 'Donate', href: '/donate' },
@@ -22,13 +22,7 @@ const Navbar = () => {
         <div className="flex lg:flex-1">
           {/* <a href="#" className="-m-1.5 p-1.5"> */}
             <Link to='/' className='-m-1.5 p-1.5'>
-            <span className="sr-only">Your Company</span>
-            <img
-              alt=""
-              src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-              className="h-8 w-auto"
-              />
-          {/* </a> */}
+              <Logo/>            
               </Link>
               <Link to='/'>
           <div className="text-2xl mx-2 text-indigo-600 font-bold">Cause Connect</div>
@@ -90,6 +84,7 @@ const Navbar = () => {
                   <Link
                     key={item.name}
                     to={item.href}
+                    onClick={()=>setMobileMenuOpen(false)}
                     className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-indigo-50"
                   >
                     {item.name}

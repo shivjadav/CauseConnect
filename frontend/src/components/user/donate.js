@@ -1,7 +1,8 @@
-import React from 'react';
+import React,{ useState } from 'react';
 import ListBox from '../layout/listBox';
-import NgoCard from '../layout/ngoCard';
-
+import NgoCard from '../ngo/ngoCard';
+import axios from 'axios';
+import ConnectionString from '../../connectionString' 
 const cities = [
   { name: 'Ahmedabad' },
   { name: 'Gandhinagar' },
@@ -12,7 +13,18 @@ const cities = [
 
 
 const Donate = () => {
-  const ngoIDs=[1,2];
+  const [ngos, setngos] = useState([]);
+  const [selected,setSelected]=useState(cities[0]);
+  const searchNGO=()=>{
+      console.log(selected.name);
+        axios.get(`${ConnectionString}fetchNgo/${selected.name}`)
+        .then((res)=>{
+          setngos(res.data)
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
+  }
   return (
     <div className="flex flex-col lg:flex-row items-center lg:items-start lg:space-x-8 space-y-8 lg:space-y-0 mt-8 lg:mt-16 w-full lg:max-w-7xl mx-auto px-4 lg:px-0">
       <div className="flex flex-col space-y-8 lg:w-1/2 lg:max-w-lg">
@@ -23,8 +35,10 @@ const Donate = () => {
           Select your city to discover NGOs and make a difference today.
         </p>
         <div className="space-y-4">
-          <ListBox options={cities} />
-          <button className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors duration-300">
+          <ListBox options={cities} selected={selected} setSelected={setSelected}/>
+          <button className="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg transition-colors duration-300"
+          onClick={searchNGO}
+          >
             Search
           </button>
         </div>
@@ -34,9 +48,13 @@ const Donate = () => {
       
       <div className="hidden lg:block lg:h-96 lg:w-3 lg:border-r lg:border-gray-500"></div>
       <div className="flex flex-col lg:w-3/4 w-full  space-y-6">
-      {cities.length>0?ngoIDs.map((ele,key)=>(
-        <NgoCard id={ele} key={key} />
-      )):<p>Start searching for your city</p>}
+      {ngos.length>0?ngos.map((ele)=>(
+        <NgoCard name={ele.name} description={ele.description}
+        causes={["birthday donation","orphanage","river cleaning"]} city={ele.city} id={ele._id}  key={ele._id}  />
+      )):(<div className='text-center text-gray-600 text-lg'>
+      Start searching by selecting city
+      </div>)}
+      
       </div>
     </div>
   );

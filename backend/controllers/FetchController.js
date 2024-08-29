@@ -1,7 +1,7 @@
 const NGOSchema=require('../models/ngoschema')
 
 const fetchHandler=async (req,res)=>{
-    const city=req.body.city
+    const city=req.params.city
     if(!city) {
         return res.status(400).json({
             "message":"Give Proper information!"

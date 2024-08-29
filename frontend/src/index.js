@@ -8,7 +8,7 @@ import Login from './components/commanPages/login';
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Register from './components/commanPages/register';
-import MainFrame from './components/commanPages/mainFrame';
+import MainFrame from './components/layout/mainFrame';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
