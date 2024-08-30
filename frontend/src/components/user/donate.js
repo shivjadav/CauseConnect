@@ -50,7 +50,7 @@ const Donate = () => {
       <div className="flex flex-col lg:w-3/4 w-full  space-y-6">
       {ngos.length>0?ngos.map((ele)=>(
         <NgoCard name={ele.name} description={ele.description}
-        causes={["birthday donation","orphanage","river cleaning"]} city={ele.city} id={ele._id}  key={ele._id}  />
+        causes={ele.causes} city={ele.city} id={ele._id}  key={ele._id}  />
       )):(<div className='text-center text-gray-600 text-lg'>
       Start searching by selecting city
       </div>)}
