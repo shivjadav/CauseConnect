@@ -8,6 +8,7 @@ const User=require('./models/user')
 const Ngo=require('./models/ngoschema')
 const donations=require("./models/Donation")
 const verifyJWT=require("./middleware/verifyJWT")
+const cookieparser=require('cookie-parser')
 dbconnect()
 const port=process.env.PORT;
 
@@ -38,8 +39,10 @@ app.get('/birthday/:email',async(req,res)=>{
 app.use(cors())
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieparser())
 app.use('/register',require('./routers/registerRoute'))
 app.use('/signin',require('./routers/signinRoute'))
+app.use('/refresh',require('./routers/refresh'))
 app.use(verifyJWT)
 app.use('/addNgo',require('./routers/addRoute'))
 app.get('/fetchNgo/:city',require('./routers/fetchingRoute'))
