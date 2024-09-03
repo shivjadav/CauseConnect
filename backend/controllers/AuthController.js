@@ -1,6 +1,7 @@
 const User=require('../models/user')
 const bcrypt=require('bcrypt');
-
+const jwt=require('jsonwebtoken');
+require('dotenv').config()
 const handleAuth=async (req,res) => {
       try{
             const email=req.body.email
@@ -13,7 +14,28 @@ const handleAuth=async (req,res) => {
             }
             const match=await bcrypt.compare(password,user.password)
             if(match){
-                return res.status(200).json({"message":"user succesfully loged in!!","id":user._id})
+                const accessToken=jwt.sign(
+                    {
+                        "username":user.username
+                    },
+                    process.env.ACCESS_SECRET,
+                    {
+                        expiresIn:'30s'
+                    }
+                   );
+                   const refreshtoken=jwt.sign(
+                    {
+                        "username" : user.username
+                    },
+                    process.env.REFRESH_SECRET,
+                    {
+                        expiresIn:'1d'
+                    }
+                   );
+                   user.refreshtoken=refreshtoken;
+                   const result=await user.save();
+                   res.cookie('jwt', refreshtoken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+                   res.json({ accessToken,"id":user._id });
             }else{
                 console.log("e")
                 return res.status(400).json({"message":"user's password is not correct!!"})
