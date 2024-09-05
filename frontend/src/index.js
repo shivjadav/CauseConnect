@@ -9,6 +9,7 @@ import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import Register from './components/commanPages/register';
 import MainFrame from './components/layout/mainFrame';
+import { AuthProvider } from './context/AuthProvider';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
@@ -24,16 +25,13 @@ root.render(
       pauseOnHover
       theme="light"
     />
-  
-
-
-  
+<AuthProvider>
   <Routes>
-
-<Route path="/Login" element={<MainFrame><Login/></MainFrame>}></Route>
-<Route path="/register" element={<MainFrame><Register/></MainFrame>}></Route>
-<Route path="*" element={<App/>}></Route>
-</Routes>
+  <Route path="/Login" element={<MainFrame><Login/></MainFrame>}></Route>
+  <Route path="/register" element={<MainFrame><Register/></MainFrame>}></Route>
+  <Route path="*" element={<App/>}></Route>
+ </Routes>
+</AuthProvider>
 
   </BrowserRouter>
 );

@@ -5,7 +5,10 @@ import Logo from '../SVG/logo'
 import LoginSVG from '../SVG/loginSVG'
 import { useNavigate } from 'react-router-dom'
 import connectionString from "../connectionString"
+import useAuth from '../../hooks/useAuth'
 const Login = () => {
+  const {setAuth,auth}=useAuth();
+  const[temp,setTemp]=useState()
   const navigate = useNavigate();
   const [form,setForm]=useState({});
   const handleChange=(e)=>{
@@ -13,7 +16,6 @@ const Login = () => {
   };
   const handleSubmit=async (e)=>{
     e.preventDefault();
-    console.log(form);
     const result = await fetch(`${connectionString}signin`, {
       method: "POST",
       headers: {
@@ -28,6 +30,11 @@ const Login = () => {
       alert(data.message)
       window.location.reload()
     }else{
+      const accessToken = data?.accessToken.toString();
+      console.log(accessToken)
+      setAuth(accessToken)
+      setTemp(accessToken)
+      console.log(temp);
       sessionStorage.setItem("user_id",data.id.toString());
       navigate('/');
     }
