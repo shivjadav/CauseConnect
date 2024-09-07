@@ -4,6 +4,7 @@ import { IoMenu } from "react-icons/io5";
 import { FaX } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import Logo from './../SVG/logo'
+import connectionString from '../connectionString';
 const navigation = [
   {name: 'Home', href:'/'},
   { name: 'Donate', href: '/donate' },
@@ -14,7 +15,27 @@ const navigation = [
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  
+  const handleLogout=async (e)=>{
+    try{
+      sessionStorage.removeItem('user_id')
+      const result = await fetch(`${connectionString}logout`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (result.ok===true) {
+        // Step 3: Redirect to login page
+        alert("logout successfull!!")
+        window.location.href = '/login'; // Replace '/login' with the actual login page URL
+    } else {
+        alert("logout unsuccessfull!!")
+        console.error('Logout failed');
+    }
+    }catch(error){
+          alert(error.message);
+    }
+  }
 
   return (
     <header className="sticky min-w-screen w-full inset-x-0 top-0 z-50">
@@ -50,9 +71,9 @@ const Navbar = () => {
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {
-          !sessionStorage.getItem("user_id") && <Link to="/login" className=" font-semibold leading-6 text-gray-900">
+          !sessionStorage.getItem("user_id")?<Link to="/login" className=" font-semibold leading-6 text-gray-900">
             Log in <span aria-hidden="true">&rarr;</span>
-          </Link>
+          </Link>:<button onClick={handleLogout}>Logout</button>
           }
         </div>
       </nav>
