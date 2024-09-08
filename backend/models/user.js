@@ -25,6 +25,8 @@ const userSchema =new Schema(
         },dob:{
             type:Date,
             required:true
+        },role:{
+            type:Number
         },
         refreshtoken:String
     }

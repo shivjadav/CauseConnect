@@ -3,12 +3,13 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../SVG/logo'
 import LoginSVG from '../SVG/loginSVG'
-import { useNavigate } from 'react-router-dom'
 import connectionString from "../connectionString"
 import useAuth from '../../hooks/useAuth'
+import { useNavigate, useLocation } from 'react-router-dom';
 const Login = () => {
-  const {setAuth,auth}=useAuth();
-  const[temp,setTemp]=useState()
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
+  const {setAuth}=useAuth();
   const navigate = useNavigate();
   const [form,setForm]=useState({});
   const handleChange=(e)=>{
@@ -16,6 +17,7 @@ const Login = () => {
   };
   const handleSubmit=async (e)=>{
     e.preventDefault();
+   
     const result = await fetch(`${connectionString}signin`, {
       method: "POST",
       headers: {
@@ -31,12 +33,10 @@ const Login = () => {
       window.location.reload()
     }else{
       const accessToken = data?.accessToken.toString();
-      console.log(accessToken)
-      setAuth(accessToken)
-      setTemp(accessToken)
-      console.log(temp);
-      sessionStorage.setItem("user_id",data.id.toString());
-      navigate('/');
+      const role=data.role;
+      console.log(role);
+      setAuth({accessToken,"role":[role]})
+      navigate(from, { replace: true });
     }
   }
   return (

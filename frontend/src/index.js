@@ -27,12 +27,9 @@ root.render(
     />
 <AuthProvider>
   <Routes>
-  <Route path="/Login" element={<MainFrame><Login/></MainFrame>}></Route>
-  <Route path="/register" element={<MainFrame><Register/></MainFrame>}></Route>
-  <Route path="*" element={<App/>}></Route>
+  <Route path="/*" element={<App/>}></Route>
  </Routes>
 </AuthProvider>
-
   </BrowserRouter>
 );
 

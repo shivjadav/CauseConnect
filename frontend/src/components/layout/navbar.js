@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Dialog, DialogPanel } from '@headlessui/react';
 import { IoMenu } from "react-icons/io5";
 import { FaX } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import Logo from './../SVG/logo'
 import connectionString from '../connectionString';
+import useAuth from '../../hooks/useAuth';
 const navigation = [
   {name: 'Home', href:'/'},
   { name: 'Donate', href: '/donate' },
@@ -15,6 +16,8 @@ const navigation = [
 
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const {auth}=useAuth();
+  const [isLoggedin,setisLoggedin]=useState(false);
   const handleLogout=async (e)=>{
     try{
       sessionStorage.removeItem('user_id')
@@ -27,6 +30,7 @@ const Navbar = () => {
       if (result.ok===true) {
         // Step 3: Redirect to login page
         alert("logout successfull!!")
+        auth.accessToken=null
         window.location.href = '/login'; // Replace '/login' with the actual login page URL
     } else {
         alert("logout unsuccessfull!!")
@@ -68,10 +72,17 @@ const Navbar = () => {
               <span className="absolute bottom-0 left-0 w-0 h-1 mt-2 bg-indigo-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
             </div>
           ))}
+          <Link to="/adminpage" className=" font-semibold leading-6 text-gray-900">
+             Admin
+          </Link>
+          <Link to="/registerngo" className=" font-semibold leading-6 text-gray-900">
+             Register NGO
+          </Link>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {
-          !sessionStorage.getItem("user_id")?<Link to="/login" className=" font-semibold leading-6 text-gray-900">
+          !auth.accessToken?
+          <Link to="/login" className=" font-semibold leading-6 text-gray-900">
             Log in <span aria-hidden="true">&rarr;</span>
           </Link>:<button onClick={handleLogout}>Logout</button>
           }

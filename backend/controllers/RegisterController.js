@@ -25,7 +25,8 @@ const handleRegister=async (req,res)=>{
         "email":email,
         "address":address,
         "phoneno":phno,
-        "dob":dob
+        "dob":dob,
+        "role":18
        })
        res.status(201).json({ 'success': `New user ${name} created!` });
     }catch(err){

@@ -35,7 +35,7 @@ const handleAuth=async (req,res) => {
                    user.refreshtoken=refreshtoken;
                    const result=await user.save();
                    res.cookie('jwt', refreshtoken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000 });
-                   res.json({ accessToken,"id":user._id });
+                   res.json({ accessToken,"id":user._id,"role":user.role });
             }else{
                 console.log("e")
                 return res.status(400).json({"message":"user's password is not correct!!"})
