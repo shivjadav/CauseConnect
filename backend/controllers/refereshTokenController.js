@@ -14,7 +14,7 @@ const refreshHandler=async(req,res)=>{
      jwt.verify(refreshToken,
         process.env.REFRESH_SECRET,
         (err,decoded)=>{
-            console.log(decoded)
+           
             if(err || decoded.username!=user.username) return res.sendStatus(403)
             const accessToken=jwt.sign(
                     {

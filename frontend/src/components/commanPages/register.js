@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import axios from "axios"
 import Logo from '../SVG/logo'
 import { Link } from 'react-router-dom'
+
 const Register = () => {
   const [form,setForm]=useState({});
   const navigate = useNavigate();
@@ -15,16 +16,16 @@ const Register = () => {
   const handleSubmit=async (e)=>{
     console.log(form);
     e.preventDefault();
-    const result = await fetch(`${connectionString}register`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
-    });
-    const data = await result.json();
-    console.log(data);
-    if(data.success===false){
+    const result = await axios.post(`${connectionString}signin`, 
+      JSON.stringify(form),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          withCredentials: true
+        }
+      });
+    console.log(result);
+    if(result.success===false){
       alert("error!")
     } 
     navigate("/Login");

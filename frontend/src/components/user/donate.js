@@ -2,7 +2,9 @@ import React,{ useState } from 'react';
 import ListBox from '../layout/listBox';
 import NgoCard from '../ngo/ngoCard';
 import axios from 'axios';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import ConnectionString from '../../connectionString' 
+import { useNavigate, useLocation } from "react-router-dom";
 const cities = [
   { name: 'Ahmedabad' },
   { name: 'Gandhinagar' },
@@ -13,17 +15,25 @@ const cities = [
 
 
 const Donate = () => {
+  const navigate=useNavigate();
+  const axiosPrivate=useAxiosPrivate();
+  const location=useLocation();
   const [ngos, setngos] = useState([]);
   const [selected,setSelected]=useState(cities[0]);
-  const searchNGO=()=>{
+  const controller = new AbortController();
+  const searchNGO=async ()=>{
       console.log(selected.name);
-        axios.get(`${ConnectionString}fetchNgo/${selected.name}`)
-        .then((res)=>{
-          setngos(res.data)
-        })
-        .catch((err)=>{
-          console.log(err);
-        })
+      try{
+        const res=await axiosPrivate.get(`${ConnectionString}fetchNgo/${selected.name}`,{
+           signal: controller.signal
+       });
+       console.log(res.data);
+       setngos(res.data);
+      }catch(error){
+        console.error(error);
+        navigate('/Login', { state: { from: location }, replace: true });
+      }
+      
   }
   return (
     <div className="flex flex-col lg:flex-row items-center lg:items-start lg:space-x-8 space-y-8 lg:space-y-0 mt-8 lg:mt-16 w-full lg:max-w-7xl mx-auto px-4 lg:px-0">

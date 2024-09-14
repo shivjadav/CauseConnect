@@ -6,6 +6,7 @@ import LoginSVG from '../SVG/loginSVG'
 import connectionString from "../connectionString"
 import useAuth from '../../hooks/useAuth'
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from '../../api/axios'
 const Login = () => {
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
@@ -18,24 +19,25 @@ const Login = () => {
   const handleSubmit=async (e)=>{
     e.preventDefault();
    
-    const result = await fetch(`${connectionString}signin`, {
-      method: "POST",
+    const result = await axios.post(`${connectionString}signin`, 
+    JSON.stringify(form),
+    {
       headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(form),
+        "Content-Type": "application/json"},
+        withCredentials: true
+      
     });
 
-    const data = await result.json();
-    console.log(data)
+    console.log(result)
     if(result.ok===false){
-      alert(data.message)
+      alert(result.message)
       window.location.reload()
     }else{
-      const accessToken = data?.accessToken.toString();
-      const role=data.role;
+      const accessToken = result?.data?.accessToken.toString()
+      const role=result.data.role;
+      const id=result.data.id.toString()
       console.log(role);
-      setAuth({accessToken,"role":[role]})
+      setAuth({accessToken,"role":[role],"user_id":id})
       navigate(from, { replace: true });
     }
   }
