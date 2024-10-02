@@ -10,6 +10,7 @@ const handleAuth=async (req,res) => {
             if(!email || !password) return res.status(400).json({'message':"username , password are required!",'success':false});
             const user=await User.findOne({"email":email});
             if(!user){
+                console.log("not user found")
                 return res.status(400).json({"message":"user is not registered!"})
             }
             const match=await bcrypt.compare(password,user.password)
@@ -35,6 +36,7 @@ const handleAuth=async (req,res) => {
                    user.refreshtoken=refreshtoken;
                    const result=await user.save();
                    res.cookie('jwt', refreshtoken, { httpOnly: true, secure: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+                   console.log("done")
                    res.json({ accessToken,"id":user._id,"role":user.role });
             }else{
                 console.log("e")

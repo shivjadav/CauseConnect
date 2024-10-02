@@ -26,7 +26,7 @@ const NgoInfo = ({ setisInfoModalOpen, ngo }) => {
           </div>
 
           {/* Description */}
-          <p className="text-gray-700 mb-6 leading-relaxed">{ngo.description}</p>
+          <p className="text-gray-700 mb-6 leading-relaxed">{ngo.detail}</p>
 
           {/* Divider */}
           <hr className="border-gray-300 mb-6" />

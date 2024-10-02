@@ -13,7 +13,7 @@ try{
     const newDonation=await DonationSchema.create({
        donorid:donorid,
        ngoid:ngoid,
-       fund:fund,
+       amount:fund,
        event:event,
        booking_date:b_date,
        booking_for:booking_for,

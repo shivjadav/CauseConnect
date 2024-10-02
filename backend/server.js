@@ -1,12 +1,14 @@
 const express=require('express')
 const app=express();
+const router=express.Router();
 const cors = require('cors');
 require('dotenv').config();
 const dbconnect=require('./config/dbConnect')
 const corsOptions  = require('./config/corsOptions');
 const User=require('./models/user')
 const Ngo=require('./models/ngoschema')
-const donations=require("./models/Donation")
+const donations=require("./models/Donation");
+const  ContactAdmin  = require('./controllers/emailTypes/contactAdmin');
 const verifyJWT=require("./middleware/verifyJWT")
 const cookieparser=require('cookie-parser')
 const credentials = require('./middleware/credentials');
@@ -23,6 +25,7 @@ app.use('/register',require('./routers/registerRoute'))
 app.use('/signin',require('./routers/signinRoute'))
 app.use('/refresh',require('./routers/refresh'))
 app.use('/logout',require('./routers/logoutroute'))
+app.post('/postFeedback',ContactAdmin)
 app.use(verifyJWT)
 app.use('/addNgo',require('./routers/addRoute'))
 app.get('/fetchNgo/:city',require('./routers/fetchingRoute'))

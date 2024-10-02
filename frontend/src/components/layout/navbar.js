@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Dialog, DialogPanel } from '@headlessui/react';
 import { IoMenu } from "react-icons/io5";
+import {toast} from 'react-toastify'
 import { FaX } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 import Logo from './../SVG/logo'
@@ -29,15 +30,15 @@ const Navbar = () => {
       });
       if (result.ok===true) {
         // Step 3: Redirect to login page
-        alert("logout successfull!!")
+        toast.success("logout successfull!!")
         auth.accessToken=null
         window.location.href = '/login'; // Replace '/login' with the actual login page URL
     } else {
-        alert("logout unsuccessfull!!")
+        toast.error("logout unsuccessfull!!")
         console.error('Logout failed');
     }
     }catch(error){
-          alert(error.message);
+          toast.error(error.message);
     }
   }
 
@@ -72,12 +73,6 @@ const Navbar = () => {
               <span className="absolute bottom-0 left-0 w-0 h-1 mt-2 bg-indigo-600 transition-all duration-300 ease-in-out group-hover:w-full"></span>
             </div>
           ))}
-          <Link to="/adminpage" className=" font-semibold leading-6 text-gray-900">
-             Admin
-          </Link>
-          <Link to="/registerngo" className=" font-semibold leading-6 text-gray-900">
-             Register NGO
-          </Link>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           {

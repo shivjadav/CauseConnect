@@ -3,11 +3,14 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Logo from '../SVG/logo'
 import LoginSVG from '../SVG/loginSVG'
+import {toast, ToastContainer} from 'react-toastify'
 import connectionString from "../connectionString"
+import {useLoading} from "../../context/loadingContext"
 import useAuth from '../../hooks/useAuth'
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from '../../api/axios'
 const Login = () => {
+  const {startLoading,stopLoading}=useLoading();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
   const {setAuth}=useAuth();
@@ -18,27 +21,30 @@ const Login = () => {
   };
   const handleSubmit=async (e)=>{
     e.preventDefault();
-   
-    const result = await axios.post(`${connectionString}signin`, 
-    JSON.stringify(form),
-    {
-      headers: {
-        "Content-Type": "application/json"},
-        withCredentials: true
+    try{
+      const result = await axios.post(`${connectionString}signin`, 
+      JSON.stringify(form),
+      {
+        headers: {
+          "Content-Type": "application/json"},
+          withCredentials: true
+        
+      });
       
-    });
+      console.log(result)
+      
+        const accessToken = result?.data?.accessToken.toString()
+        const role=result.data.role;
+        const id=result.data.id.toString()
+        console.log(role);
+        setAuth({accessToken,"role":[role],"user_id":id})
+        navigate(from, { replace: true });
+      
 
-    console.log(result)
-    if(result.ok===false){
-      alert(result.message)
-      window.location.reload()
-    }else{
-      const accessToken = result?.data?.accessToken.toString()
-      const role=result.data.role;
-      const id=result.data.id.toString()
-      console.log(role);
-      setAuth({accessToken,"role":[role],"user_id":id})
-      navigate(from, { replace: true });
+    }
+    catch(e){
+        toast.error(e.response.data.message);
+        // window.location.reload();
     }
   }
   return (

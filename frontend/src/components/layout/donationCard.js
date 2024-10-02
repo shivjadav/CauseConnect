@@ -2,16 +2,16 @@ import React from 'react';
 
 export default function DonationCard() {
   return (
-    <div className="max-w-4xl  mx-auto my-4 bg-white rounded-lg shadow-lg flex h-48 md:h-40">
+    <div data-aos="fade-right" className="max-w-4xl  mx-auto my-4 bg-white rounded-lg shadow-lg flex h-48 md:h-40">
       {/* Left side (gray background) */}
       <div className="w-1/4 border-zinc-400 border-r-2  border-dotted bg-indigo-100 p-4 rounded-l-lg flex flex-col justify-between">
         <div>
-          <span className="text-gray-500 block text-xs font-semibold">Amount</span>
-          <span className="text-lg font-bold">$1,200</span>
+          <span className="text-gray-500 block text-lg font-semibold">Amount</span>
+          <span className="text-xl font-bold">$1,200</span>
         </div>
         <div>
-          <span className="text-gray-500 block text-xs font-semibold">Kits Generated</span>
-          <span className="text-lg font-bold">15</span>
+          <span className="text-gray-500 block text-lg font-semibold">Kits Generated</span>
+          <span className="text-xl font-bold">15</span>
         </div>
       </div>
 

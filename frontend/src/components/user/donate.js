@@ -4,6 +4,8 @@ import NgoCard from '../ngo/ngoCard';
 import axios from 'axios';
 import useAxiosPrivate from '../../hooks/useAxiosPrivate'
 import ConnectionString from '../../connectionString' 
+import {toast} from 'react-toastify'
+import {useLoading} from '../../context/loadingContext'
 import { useNavigate, useLocation } from "react-router-dom";
 const cities = [
   { name: 'Ahmedabad' },
@@ -15,6 +17,7 @@ const cities = [
 
 
 const Donate = () => {
+  const {startLoading,stopLoading}=useLoading();
   const navigate=useNavigate();
   const axiosPrivate=useAxiosPrivate();
   const location=useLocation();
@@ -23,6 +26,16 @@ const Donate = () => {
   const controller = new AbortController();
   const searchNGO=async ()=>{
       console.log(selected.name);
+        startLoading();
+        axios.get(`${ConnectionString}fetchNgo/${selected.name}`)
+        .then((res)=>{
+          setngos(res.data)
+        })
+        .catch((err)=>{
+          console.log(err);
+        }).finally(()=>{
+          stopLoading();
+        })
       try{
         const res=await axiosPrivate.get(`${ConnectionString}fetchNgo/${selected.name}`,{
            signal: controller.signal
@@ -42,7 +55,7 @@ const Donate = () => {
           Find NGOs in Your City
         </h1>
         <p className="text-lg md:text-xl text-gray-600 text-center lg:text-left">
-          Select your city to discover NGOs and make a difference today.
+          Select your city to discover NGOs and spread happiness.
         </p>
         <div className="space-y-4">
           <ListBox options={cities} selected={selected} setSelected={setSelected}/>
@@ -58,12 +71,14 @@ const Donate = () => {
       
       <div className="hidden lg:block lg:h-96 lg:w-3 lg:border-r lg:border-gray-500"></div>
       <div className="flex flex-col lg:w-3/4 w-full  space-y-6">
+      <div className='grid grid-cols-2 gap-4'>
       {ngos.length>0?ngos.map((ele)=>(
-        <NgoCard name={ele.name} description={ele.description}
-        causes={ele.causes} city={ele.city} id={ele._id}  key={ele._id}  />
-      )):(<div className='text-center text-gray-600 text-lg'>
+        <NgoCard name={ele.name} detail={ele.detail} description={ele.description}
+        city={ele.city} id={ele._id}  key={ele._id}  />
+      )):(<div data-aos="zoom-in" className='text-center text-gray-600 text-lg'>
       Start searching by selecting city
       </div>)}
+        </div>
       
       </div>
     </div>

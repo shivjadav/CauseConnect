@@ -11,9 +11,7 @@ const MyDonations = () => {
         Here are the details of your previous donations. Thank you for your generosity!
       </p>
       <div className="space-y-6">
-        <DonationCard />
-        <DonationCard />
-        <DonationCard />
+          <DonationCard />
       </div>
     </div>
   );

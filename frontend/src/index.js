@@ -6,10 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Login from './components/commanPages/login';
 import { ToastContainer } from 'react-toastify'
+// import Loader from './components/layout/loader';
 import 'react-toastify/dist/ReactToastify.css';
 import Register from './components/commanPages/register';
 import MainFrame from './components/layout/mainFrame';
 import { AuthProvider } from './context/AuthProvider';
+import Loader from './components/layout/loader'
+import { LoadingProvider } from './context/loadingContext';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
@@ -25,11 +28,15 @@ root.render(
       pauseOnHover
       theme="light"
     />
-<AuthProvider>
-  <Routes>
-  <Route path="/*" element={<App/>}></Route>
- </Routes>
-</AuthProvider>
+    <LoadingProvider>
+      <Loader />
+
+      <AuthProvider>
+        <Routes>
+          <Route path="/*" element={<App />}></Route>
+        </Routes>
+      </AuthProvider>
+    </LoadingProvider>
   </BrowserRouter>
 );
 
