@@ -32,16 +32,7 @@ const NgoInfo = ({ setisInfoModalOpen, ngo }) => {
           <hr className="border-gray-300 mb-6" />
 
           {/* Causes */}
-          <div className="space-y-2 ml-2">
-            <ul style={{listStyleType:"disc"}}>
-
-            {ngo.causes.map((cause, index) => (
-              <li key={index} className="text-black  text-semibold">
-                {cause}
-              </li>
-            ))}
-            </ul>
-          </div>
+      
         </div>
       </div>
     </ModalPortal>

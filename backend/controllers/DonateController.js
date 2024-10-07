@@ -1,33 +1,49 @@
 
-const DonationSchema=require('../models/Donation')
-
+const DonationSchema=require('../models/Donation');
+const confirmDonationDonor = require('./emailTypes/confirmDonationDonor');
+const confirmDonationNgo= require('./emailTypes/confirmDonationNgo')
+const sendEmails= async(donorid, obj)=>{
+    try{
+        const emails= await DonationSchema.findOne({donorid:donorid,ngoid: obj.ngoid}).
+        populate('donorid','email').
+        populate('ngoid','email');
+        obj.donorEmail=emails.donorid.email,
+        obj.ngoEmail=emails.ngoid.email
+        await confirmDonationDonor(obj);
+        await confirmDonationNgo(obj);
+    }
+    catch(error)
+    {
+        console.log(error);
+    }
+}
 const DonateHandler=async(req,res)=>{
-     const {donorid,ngoid,fund,event,booking_date,city,booking_for}=req.body
-     if(!donorid|| !ngoid || !fund || !event || !booking_date || !city || !booking_for){
-        return res.status(400).json({
-            "message":"Give all information!!"
+     const {ngoid,totalcost,kits,date,cause,description}=req.body
+     donorid=req.cookies.user_id
+     if(!donorid|| !ngoid || !totalcost || !cause || !date  || !kits || !description){
+         return res.status(400).json({
+             "message":"Give all information!!"
         })
-     }
+    }
 try{
-    const b_date=new Date(booking_date);
+    const booking_date=new Date(date);
     const newDonation=await DonationSchema.create({
        donorid:donorid,
        ngoid:ngoid,
-       amount:fund,
-       event:event,
-       booking_date:b_date,
-       booking_for:booking_for,
-       city:city
+       amount:totalcost,
+       cause:cause,
+       booking_date:booking_date,
+       description: description,
+       kits: kits
     })
+    await sendEmails(donorid,req.body);
     res.status(200).json({
         "message":"Donation Info stored successfully!!"
     })
-}catch(error){
+    }catch(error){
     res.status(500).json({
         "message":error.message
     })
 }
-
 }
-
 module.exports={DonateHandler}

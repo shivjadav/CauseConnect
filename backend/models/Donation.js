@@ -15,6 +15,11 @@ const DonationSchema=new schema({
         type:Number,
         required:true
     },
+    //description about the given donation
+    description:{
+        type: String,
+        required: true
+    },
     //number of kits delivered
     kits:{
         type:Number,
@@ -25,20 +30,9 @@ const DonationSchema=new schema({
         type:String,
         required: true
     },
-    event:{
-        type:String,
-        required:true
-    },
+
     booking_date:{
         type:Date,
-        required:true
-    },
-    city:{
-        type:String,
-        required:true
-    },
-    booking_for:{
-        type:String,
         required:true
     }
 })

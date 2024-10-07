@@ -6,6 +6,7 @@ const handleRegister=async (req,res)=>{
     const email=req.body.email
     const phno=req.body.phoneno
     const address=req.body.address
+    const pan=req.body.pan;
     const dob=new Date(req.body.dob)
     console.log(dob)
     const password=req.body.password
@@ -21,6 +22,7 @@ const handleRegister=async (req,res)=>{
        const hashPass=await bcrypt.hash(password,10)
        const newUser=await User.create({
         "username":name,
+        "pan":pan,
         "password":hashPass,
         "email":email,
         "address":address,

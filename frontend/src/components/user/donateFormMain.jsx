@@ -14,7 +14,7 @@ const donateFormMain = () => {
             </div>
             <div className="flex flex-col">
     <div className="grid grid-cols-1 mb-10 place-items-center lg:grid-cols-2 gap-8">
-        {Input.map((ele)=>(<CauseFormCard title={ele.title} description={ele.description} svg={ele.svg}/>))}
+        {Input.map((ele,id)=>(<CauseFormCard key={id} title={ele.title} description={ele.description} svg={ele.svg}/>))}
         {/* <CauseFormCard /> */}
     </div>
 </div>
