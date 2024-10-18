@@ -1,8 +1,8 @@
+require('dotenv').config();
 const express=require('express')
 const app=express();
 const router=express.Router();
 const cors = require('cors');
-require('dotenv').config();
 const dbconnect=require('./config/dbConnect')
 const corsOptions  = require('./config/corsOptions');
 const User=require('./models/user')
@@ -15,6 +15,7 @@ const credentials = require('./middleware/credentials');
 const port=process.env.PORT;
 const cron=require('node-cron');
 const { checkBirthdays } = require('./controllers/birthdayTrigger');
+const paymentRoutes = require('./routers/Payment');
 dbconnect()
 app.use(credentials);
 //for testing purpose new apis and some changes in existing work is made 
@@ -44,6 +45,7 @@ app.use('/donateinfo',require('./routers/donationRoute'))
 app.use(verifyJWT)
 app.use('/addNgo',require('./routers/addRoute'))
 app.get('/fetchNgo/:city',require('./routers/fetchingRoute'))
+app.use('/payment', paymentRoutes);
 app.get('/birthday/:email',async(req,res)=>{
     try{
         // const sevenDayPeriod = 604800000;
@@ -65,6 +67,7 @@ app.get('/birthday/:email',async(req,res)=>{
         console.log(err);
     }
 })
+
 // app.use(cors(corsOptions));
 
 
