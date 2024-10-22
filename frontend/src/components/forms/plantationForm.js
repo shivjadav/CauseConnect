@@ -26,6 +26,10 @@ const PlantationForm = (props) => {
         cost: 300
     }
     ]
+    const validateForm = () => {
+        return form.cause && form.date && form.description && form.amount > 0;
+    };
+    
     const [isCalcModalOpen, setIsCalcModalOpen] = useState(false);
     const [form, setform] = useState({
         cause: props.cause,
@@ -119,19 +123,23 @@ const PlantationForm = (props) => {
                         <div className="flex justify-between">
                             <div className='font-semibold'>
                                 <p>Total cost: ₹ {totalcost}</p>
-                                <p>Number of kits: {Math.floor(totalcost / costBreakDown[costBreakDown.length - 1].cost)}</p>
+                                <p>Number of units: {Math.floor(totalcost / costBreakDown[costBreakDown.length - 1].cost)}</p>
 
                             </div>
                             <button type="button"
                                 onClick={async (e) => {
                                     e.preventDefault();
                                     startLoading();
-                                    await handleSubmit(axiosPrivate, form, totalcost, Math.floor(totalcost / costBreakDown[costBreakDown.length - 1].cost), props.ngoid);
+                                    const res=await handleSubmit(axiosPrivate, form, totalcost, Math.floor(totalcost / costBreakDown[costBreakDown.length - 1].cost), props.ngoid);
                                     stopLoading();
+                                    if(res===400)
+                                    {
+                                        return;
+                                    }
                                     setIsThankYouModal(true)
                                 }}
 
-                                disabled={totalcost < costBreakDown[costBreakDown.length - 1].cost}
+                                disabled={!validateForm()}
                                 className="px-4 py-2 bg-indigo-500 text-white rounded" >
                                 Confirm
                             </button>

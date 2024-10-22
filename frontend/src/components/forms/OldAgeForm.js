@@ -1,62 +1,82 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import { RxCross1 } from "react-icons/rx";
-import ModalPortal from '../user/modalPortal'
-import TableBreakDown from './tableBreakdown';
 import handleSubmit from './handleSubmission';
-import useAxiosPrivate from '../../hooks/useAxiosPrivate';
-import {useLoading} from '../../context/loadingContext'
 import ThankYouModal from '../layout/thankYouModal';
+import useAxiosPrivate from '../../hooks/useAxiosPrivate';
+import { useLoading } from '../../context/loadingContext';
+import ModalPortal from '../user/modalPortal';
+import TableBreakDown from './tableBreakdown';
 
 const OldAgeForm = (props) => {
-    const {startLoading, stopLoading} = useLoading();
-    const axiosPrivate = useAxiosPrivate();
+    const { startLoading, stopLoading } = useLoading();
     const [isThankYouModal, setIsThankYouModal] = useState(false);
+    const axiosPrivate = useAxiosPrivate();
+    const [isCalcModalOpen, setIsCalcModalOpen] = useState(false);
+    const [form, setForm] = useState({ cause: props.cause, amount: 0 });
+    const [checkedItems, setCheckedItems] = useState([]);
+    const [costBreakDown, setCostBreakDown] = useState([]);
 
-    const costBreakDown = [{
-        desc: "Pharmaceutical aid",
-        cost: 500
-    },
-    {
-        desc: "Total",
-        cost: 500 
-    }];
-    
-    const [form, setform] = useState({
-        cause: props.cause,
-    });
-    const [totalcost, setTotalCost] = useState(0);
+    const items = [
+        { desc: "Medication", cost: 500 },
+        { desc: "Clothes", cost: 400 },
+        { desc: "Air conditioner", cost: 30000 },
+        { desc: "Fan", cost: 700 },
+        { desc: "Bedsheets", cost: 200 },
+        { desc: "Bed", cost: 1500 },
+        { desc: "Basic food (1 time meal)", cost: 100 },
+        { desc: "Basic food (2 time meal)", cost: 200 },
+    ];
 
     const handleAmountChange = (e) => {
-        setform((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-        setTotalCost(e.target.value - (e.target.value % costBreakDown[costBreakDown.length - 1].cost));
-    };
+        setForm((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    }
 
     const handleChange = (e) => {
-        setform((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-    };
+        setForm((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+    }
+
+    const handleCheck = (item) => {
+        setCheckedItems((prev) => {
+            const isChecked = prev.some(i => i.desc === item.desc);
+            let newCheckedItems;
+            if (isChecked) {
+                newCheckedItems = prev.filter(i => i.desc !== item.desc);
+            } else {
+                newCheckedItems = [...prev, item];
+            }
+
+            const newCostBreakDown = newCheckedItems.map(item => ({ ...item }));
+            setCostBreakDown(newCostBreakDown);
+
+            return newCheckedItems;
+        });
+
+
+    }
 
     const today = new Date().toISOString().split('T')[0];
     const sixMonthsFromNow = new Date();
     sixMonthsFromNow.setMonth(sixMonthsFromNow.getMonth() + 6);
     const maxDate = sixMonthsFromNow.toISOString().split('T')[0];
 
+    const unitCost = costBreakDown.reduce((total, item) => total + item.cost, 0);
+    const validateForm = () => {
+        return form.cause && form.date && form.description && form.amount > 0;
+    };
     return (
         <ModalPortal>
-            {/* Full-screen overlay */}
             <div className="fixed inset-0 bg-black bg-opacity-50 z-40" onClick={props.closeModal}></div>
-
-            {/* Modal content */}
             <div className="fixed inset-0 flex items-center justify-center z-50">
                 <div className="bg-white p-6 rounded-md shadow-lg max-w-lg w-full">
                     <div className="flex flex-row">
-                        <span className="text-2xl grow font-bold mb-4">Donation details</span>
+                        <span className="text-2xl grow font-bold ">Donation details</span>
                         <div className="flex items-center" onClick={props.closeModal}>
                             <RxCross1 />
                         </div>
                     </div>
                     <form>
-                        <div className="mb-4">
-                            <label htmlFor="cause" className="block mb-2">Cause</label>
+                        <div className="mb-2">
+                            <label htmlFor="cause" className="block mb-1">Cause</label>
                             <input
                                 type="text"
                                 id="cause"
@@ -67,9 +87,8 @@ const OldAgeForm = (props) => {
                                 required
                             />
                         </div>
-
-                        <div className="mb-4">
-                            <label htmlFor="date" className="block mb-2">Date of Donation</label>
+                        <div className="mb-2">
+                            <label htmlFor="date" className="block mb-1">Date of Donation</label>
                             <input
                                 type="date"
                                 id="date"
@@ -80,8 +99,8 @@ const OldAgeForm = (props) => {
                                 required
                             />
                         </div>
-                        <div className="mb-4">
-                            <label htmlFor="description" className="block mb-2">Description</label>
+                        <div className="mb-2">
+                            <label htmlFor="description" className="block mb-1">Description</label>
                             <input
                                 type="text"
                                 id="description"
@@ -92,8 +111,8 @@ const OldAgeForm = (props) => {
                                 required
                             />
                         </div>
-                        <div className="mb-4">
-                            <label htmlFor="amount" className="block mb-2">Amount</label>
+                        <div className="mb-2">
+                            <label htmlFor="amount" className="block mb-1">Amount</label>
                             <input
                                 type="number"
                                 id="amount"
@@ -104,6 +123,22 @@ const OldAgeForm = (props) => {
                                 required
                             />
                         </div>
+                        <div className='mb-2'>
+                            <label className='block mb-1'>Items</label>
+                            <div className='grid grid-cols-4'>
+
+                                {items.map(item => (
+                                    <div key={item.desc}>
+                                        <input
+                                            type="checkbox"
+                                            id={item.desc}
+                                            onChange={() => handleCheck(item)}
+                                        />
+                                        <label htmlFor={item.desc}>{item.desc}</label>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
                         <div className='mb-4'>
                             <label className='block mb-2'>Per Unit Cost</label>
                             <TableBreakDown costBreakDown={costBreakDown} />
@@ -111,32 +146,49 @@ const OldAgeForm = (props) => {
                         <hr className='my-4 ' />
                         <div className="flex justify-between">
                             <div className='font-semibold'>
-                                <p>Total cost: ₹ {totalcost}</p>
-                                <p>Number of kits: {Math.floor(totalcost / costBreakDown[costBreakDown.length - 1].cost)}</p>
+                                <p>Unit cost: ₹ {unitCost}</p>
+                                <p>Total cost: {form.amount - (form.amount % unitCost) | 0}</p>
+                                {/* //e.target.value-(e.target.value%costBreakDown[costBreakDown.length-1].cost */}
+                                <p>Number of people to be benefited: {Math.floor(((form.amount - (form.amount % unitCost)) | 0) / (costBreakDown.length > 0 ? unitCost : 1))}</p>
                             </div>
-                            <button type="button" 
+                            <button
+                                type="submit"
                                 onClick={async (e) => {
                                     e.preventDefault();
+                                    if (!validateForm()) {
+                                        // Do not submit if form is invalid
+                                        return;
+                                    }
                                     startLoading();
-                                    await handleSubmit(axiosPrivate, form, totalcost, Math.floor(totalcost / costBreakDown[costBreakDown.length - 1].cost), props.ngoid);
+                                    const res = await handleSubmit(
+                                        axiosPrivate,
+                                        form,
+                                        form.amount - (form.amount % unitCost) | 0,
+                                        Math.floor(
+                                            ((form.amount - (form.amount % unitCost)) | 0) / (costBreakDown.length > 0 ? unitCost : 1)
+                                        ),
+                                        props.ngoid
+                                    );
                                     stopLoading();
-                                    setIsThankYouModal(true);  
-                                    
+                                    if (res == 400) {
+                                        return;
+                                    }
+                                    setIsThankYouModal(true);
                                 }}
-                                disabled={totalcost < costBreakDown[costBreakDown.length - 1].cost}
+                                disabled={!validateForm()}
                                 className="px-4 py-2 bg-indigo-500 text-white rounded"
                             >
                                 Confirm
                             </button>
+
                         </div>
                     </form>
                 </div>
             </div>
-
-            {/* Thank you modal shown after submission */}
-            {isThankYouModal && <ThankYouModal closeModal={() => {setIsThankYouModal(false); props.closeModal();}} />}
+            {isThankYouModal && <ThankYouModal closeModal={() => { setIsThankYouModal(false); props.closeModal(); }} />}
+            {/* {isCalcModalOpen && <CalculationModal amount={amount} closeModal={() => setIsCalcModalOpen(false)} />} */}
         </ModalPortal>
-    );
-};
+    )
+}
 
 export default OldAgeForm;

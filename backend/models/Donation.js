@@ -20,7 +20,7 @@ const DonationSchema=new schema({
         type: String,
         required: true
     },
-    //number of kits delivered
+    //Number of units delivered
     kits:{
         type:Number,
         required: true
